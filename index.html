@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenStreetMap Viewer</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-sA+4j7J4jG3GgXkG4dq7y6Yf0L1wQSL1jR4MxAQ3b+I="
+    crossorigin=""
+  >
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+    #map {
+      height: 100%;
+      width: 100%;
+      border: 0;
+    }
+    #status {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 10px 12px;
+      background: rgba(0, 0, 0, 0.7);
+      color: #fff;
+      font-family: sans-serif;
+      border-radius: 4px;
+      z-index: 1000;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="status" role="status" aria-live="polite"></div>
+  <div id="map" role="application" aria-label="OpenStreetMap map"></div>
+  <script>
+    const statusEl = document.getElementById('status');
+
+    function showStatus(message) {
+      statusEl.textContent = message;
+      statusEl.style.display = 'block';
+      statusEl.hidden = false;
+    }
+
+    function initMap() {
+      statusEl.style.display = 'none';
+      const map = L.map('map').setView([0, 0], 2);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+    }
+
+    const leafletScript = document.createElement('script');
+    leafletScript.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+    leafletScript.integrity = 'sha256-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44c=';
+    leafletScript.crossOrigin = '';
+    leafletScript.onload = initMap;
+    leafletScript.onerror = () => showStatus('Unable to load map library. Check your internet connection.');
+    document.head.appendChild(leafletScript);
+  </script>
+</body>
+</html>
