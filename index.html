@@ -36,13 +36,14 @@
 </head>
 <body>
   <div id="status" role="status" aria-live="polite"></div>
-  <div id="map" aria-label="OpenStreetMap map"></div>
+  <div id="map" role="application" aria-label="OpenStreetMap map"></div>
   <script>
     const statusEl = document.getElementById('status');
 
     function showStatus(message) {
       statusEl.textContent = message;
       statusEl.style.display = 'block';
+      statusEl.hidden = false;
     }
 
     function initMap() {
